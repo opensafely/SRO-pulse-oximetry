@@ -4,4 +4,5 @@ model.log
 __pycache__
 .python-version
 output/*
+notebooks/
 metadata/*
