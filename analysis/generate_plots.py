@@ -12,8 +12,8 @@ measures_df_total = pd.read_csv(
 
 
 #temporary fix for population not working in Measures
-measures_df_total = measures_df_total.groupby(
-    ['date'])['had_pulse_ox', 'population', 'value'].sum().reset_index()
+# measures_df_total = measures_df_total.groupby(
+#     ['date'])['had_pulse_ox', 'population', 'value'].sum().reset_index()
 
 
 def to_datetime_sort(df):

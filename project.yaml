@@ -25,7 +25,7 @@ actions:
     needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        figure1: output/figures/sex_rates.yaml
-        figure2: output/figures/region_rates.yaml
-        figure3: output/figures/age_rates.yaml
-        figure4: output/figures/population_rates.yaml
+        figure1: output/figures/sex_rates.jpeg
+        figure2: output/figures/region_rates.jpeg
+        figure3: output/figures/age_rates.jpeg
+        figure4: output/figures/population_rates.jpeg

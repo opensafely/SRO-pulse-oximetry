@@ -129,6 +129,6 @@ measures = [
         id="pulse_ox_total",
         numerator="had_pulse_ox",
         denominator="population",
-        group_by=None,
+        group_by="population",
     ),
 ]
