@@ -181,19 +181,19 @@ measures = [
         group_by=["age_band"],
     ),
 
-    Measure(
-        id="pulse_ox_by_ethnicity",
-        numerator="had_pulse_ox",
-        denominator="population",
-        group_by=["ethnicity"],
-    ),
+    # Measure(
+    #     id="pulse_ox_by_ethnicity",
+    #     numerator="had_pulse_ox",
+    #     denominator="population",
+    #     group_by=["ethnicity"],
+    # ),
 
-    Measure(
-        id="pulse_ox_by_ethnicity_16",
-        numerator="had_pulse_ox",
-        denominator="population",
-        group_by=["ethnicity_16"],
-    ),
+    # Measure(
+    #     id="pulse_ox_by_ethnicity_16",
+    #     numerator="had_pulse_ox",
+    #     denominator="population",
+    #     group_by=["ethnicity_16"],
+    # ),
 
     Measure(
         id="pulse_ox_total",
