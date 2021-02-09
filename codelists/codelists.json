@@ -11,6 +11,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
       "downloaded_at": "2021-02-09 10:54:08.371525Z",
       "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    },
+    "opensafely-pulse-oximetry.csv": {
+      "id": "opensafely/pulse-oximetry/72ce1380",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/pulse-oximetry/72ce1380/",
+      "downloaded_at": "2021-02-09 14:32:46.418376Z",
+      "sha": "9a82ffa751c58d33e6ddac3f7cef0413ab635bf9"
     }
   }
 }
