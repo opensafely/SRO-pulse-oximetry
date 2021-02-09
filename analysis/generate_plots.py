@@ -1,5 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+
+os.mkdir('output/figures')
 
 
 measures_df_sex = pd.read_csv('output/measures/measure_pulse_ox_by_sex.csv')
