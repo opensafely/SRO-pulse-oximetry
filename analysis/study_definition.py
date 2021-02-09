@@ -1,6 +1,5 @@
 
 # Import functions
-
 from cohortextractor import (
     StudyDefinition, 
     patients, 
@@ -10,14 +9,24 @@ from cohortextractor import (
 )
 
 # Import codelists
-# pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-pulse-oximetry.csv",
-#     system="snomed",
-#     column="id",)
-
-#filler codes whilst wait for updated pulse ox snomed codes
-pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-asthma-oral-prednisolone-medication.csv",
+pulse_oximetry_codes = codelist_from_csv("codelists/pulse-oximetry.csv",
     system="snomed",
-    column="snomed_id",)
+    column="code",)
+
+ethnicity_codes = codelist_from_csv(
+    "codelists/opensafely-ethnicity.csv",
+    system="ctv3",
+    column="Code",
+    category_column="Grouping_6",
+)
+
+
+ethnicity_codes_16 = codelist_from_csv(
+    "codelists/opensafely-ethnicity.csv",
+    system="ctv3",
+    column="Code",
+    category_column="Grouping_16",
+)
 
 start_date = "2019-01-01"
 end_date = "today"
@@ -39,6 +48,8 @@ study = StudyDefinition(
         between=[start_date, end_date],
         return_expectations={"incidence": 0.5}
     ),
+
+
 
     region=patients.registered_practice_as_of(
         start_date,
@@ -99,6 +110,51 @@ study = StudyDefinition(
       "category": {"ratios": {"M": 0.49, "F": 0.51}},
     }
   ),
+
+
+    # ETHNICITY IN 16 CATEGORIES
+    # https: // github.com/opensafely/covid-vaccine-research-template/blob/main/analysis/study_definition.py
+    ethnicity_16=patients.with_these_clinical_events(
+        ethnicity_codes_16,
+        returning="category",
+        find_last_match_in_period=True,
+        include_date_of_match=False,
+        return_expectations={
+            "category": {
+                "ratios": {
+                    "1": 0.0625,
+                    "2": 0.0625,
+                    "3": 0.0625,
+                    "4": 0.0625,
+                    "5": 0.0625,
+                    "6": 0.0625,
+                    "7": 0.0625,
+                    "8": 0.0625,
+                    "9": 0.0625,
+                    "10": 0.0625,
+                    "11": 0.0625,
+                    "12": 0.0625,
+                    "13": 0.0625,
+                    "14": 0.0625,
+                    "15": 0.0625,
+                    "16": 0.0625,
+                }
+            },
+            "incidence": 0.75,
+        },
+    ),
+
+    # ETHNICITY IN 6 CATEGORIES
+    ethnicity=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        find_last_match_in_period=True,
+        include_date_of_match=False,
+        return_expectations={
+            "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
+            "incidence": 0.75,
+        },
+    ),
     
     
 )
@@ -126,9 +182,23 @@ measures = [
     ),
 
     Measure(
+        id="pulse_ox_by_ethnicity",
+        numerator="had_pulse_ox",
+        denominator="population",
+        group_by=["ethnicity"],
+    ),
+
+    Measure(
+        id="pulse_ox_by_ethnicity_16",
+        numerator="had_pulse_ox",
+        denominator="population",
+        group_by=["ethnicity_16"],
+    ),
+
+    Measure(
         id="pulse_ox_total",
         numerator="had_pulse_ox",
         denominator="population",
-        group_by="population",
+        group_by=None,
     ),
 ]

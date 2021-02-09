@@ -5,6 +5,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-oral-prednisolone-medication/2020-04-27/",
       "downloaded_at": "2021-02-08 13:47:50.378858Z",
       "sha": "e47cc254975c23f7507cf04bb655454f8b5ece18"
+    },
+    "opensafely-ethnicity.csv": {
+      "id": "opensafely/ethnicity/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
+      "downloaded_at": "2021-02-09 10:54:08.371525Z",
+      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
     }
   }
 }
