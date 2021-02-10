@@ -6,27 +6,48 @@ expectations:
 actions:
 
   generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to 2021-02-01 by month" --output-dir=output/measures
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to 2021-02-01 by month" --output-dir=output/measures/pox
     outputs:
       highly_sensitive:
-        cohort: output/measures/input_*.csv
+        cohort: output/measures/pox/input_*.csv
+
+  generate_study_population_smr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_smr --index-date-range "2019-01-01 to 2021-02-01 by month" --output-dir=output/measures/smr
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/smr/input_*.csv
 
 
   generate_measures:
-      run: cohortextractor:latest generate_measures --study-definition study_definition --output-dir=output/measures
+      run: cohortextractor:latest generate_measures --study-definition study_definition --output-dir=output/measures/pox
       needs: [generate_study_population]
       outputs:
         moderately_sensitive:
-          measure_csv: output/measures/measure_*.csv
+          measure_csv: output/measures/pox/measure_*.csv
   
+  generate_measures_smr:
+      run: cohortextractor:latest generate_measures --study-definition study_definition_smr --output-dir=output/measures/smr
+      needs: [generate_study_population_smr]
+      outputs:
+        moderately_sensitive:
+          measure_csv: output/measures/smr/measure_*.csv
 
   generate_plots:
     run: python:latest python analysis/generate_plots.py
     needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        figure1: output/figures/population_rates.jpeg
-        figure2: output/figures/sex_rates.jpeg
-        figure3: output/figures/region_rates.jpeg
-        figure4: output/figures/age_rates.jpeg
-         
+        figure1: output/figures/pox/population_rates.jpeg
+        figure2: output/figures/pox/sex_rates.jpeg
+        figure3: output/figures/pox/region_rates.jpeg
+        figure4: output/figures/pox/age_rates.jpeg
+  
+  generate_plots_smr:
+    run: python:latest python analysis/generate_plots_smr.py
+    needs: [generate_measures_smr]
+    outputs:
+      moderately_sensitive:
+        figure1: output/figures/smr/population_rates.jpeg
+        figure2: output/figures/smr/sex_rates.jpeg
+        figure3: output/figures/smr/region_rates.jpeg
+        figure4: output/figures/smr/age_rates.jpeg

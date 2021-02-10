@@ -6,24 +6,24 @@ import os
 if not os.path.exists('output/figures'):
     os.mkdir('output/figures')
 
-if not os.path.exists('output/figures/pox'):
-    os.mkdir('output/figures/pox')
+
+if not os.path.exists('output/figures/smr'):
+    os.mkdir('output/figures/smr')
 
 
-
-measures_df_sex = pd.read_csv('output/measures/pox/measure_pulse_ox_by_sex.csv')
+measures_df_sex = pd.read_csv('output/measures/smr/measure_smr_by_sex.csv')
 measures_df_region = pd.read_csv(
-    'output/measures/pox/measure_pulse_ox_by_region.csv')
+    'output/measures/smr/measure_smr_by_region.csv')
 measures_df_age = pd.read_csv(
-    'output/measures/pox/measure_pulse_ox_by_age_band.csv')
+    'output/measures/smr/measure_smr_by_age_band.csv')
 measures_df_total = pd.read_csv(
-    'output/measures/pox/measure_pulse_ox_total.csv')
+    'output/measures/smr/measure_smr_total.csv')
 
 
 #temporary fix for population not working in Measures
 measures_df_total = measures_df_total.groupby(
-    ['date'])['had_pulse_ox', 'population'].sum().reset_index()
-measures_df_total['value'] = measures_df_total['had_pulse_ox'] / \
+    ['date'])['had_smr', 'population'].sum().reset_index()
+measures_df_total['value'] = measures_df_total['had_smr'] / \
     measures_df_total['population']
 
 
@@ -38,7 +38,7 @@ to_datetime_sort(measures_df_age)
 to_datetime_sort(measures_df_total)
 
 
-def calculate_rate(df, value_col='had_pulse_ox', population_col='population'):
+def calculate_rate(df, value_col='had_smr', population_col='population'):
     num_per_hundred_thousand = df[value_col]/(df[population_col]/100000)
     df['num_per_hundred_thousand'] = num_per_hundred_thousand
 
@@ -72,17 +72,17 @@ def plot_measures(df, title, filename, column_to_plot, category=False, y_label='
     else:
         pass
 
-    plt.savefig(f'output/figures/pox/{filename}.jpeg', bbox_inches='tight')
-   
+    plt.savefig(f'output/figures/smr/{filename}.jpeg', bbox_inches='tight')
+
     plt.clf()
 
 
-plot_measures(measures_df_total, 'Pulse Oximetry use across Whole Population',
-              'population_rates', 'had_pulse_ox', category=False, y_label='Total Number')
+plot_measures(measures_df_total, 'SMR use across Whole Population',
+              'population_rates', 'had_smr', category=False, y_label='Total Number')
 
 plot_measures(measures_df_sex,
-              'Pulse Oximetry use by Sex per 100, 000', 'sex_rates', 'num_per_hundred_thousand', category='sex', )
+              'SMR use by Sex per 100, 000', 'sex_rates', 'num_per_hundred_thousand', category='sex', )
 plot_measures(measures_df_region,
-              'Pulse Oximetry use by Region per 100, 000', 'region_rates', 'num_per_hundred_thousand', category='region')
+              'SMR use by Region per 100, 000', 'region_rates', 'num_per_hundred_thousand', category='region')
 plot_measures(measures_df_age,
-              'Pulse Oximetry use by Age Band per 100, 000',  'age_rates', 'num_per_hundred_thousand', category='age_band')
+              'SMR use by Age Band per 100, 000',  'age_rates', 'num_per_hundred_thousand', category='age_band')

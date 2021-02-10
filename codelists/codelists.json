@@ -1,11 +1,5 @@
 {
   "files": {
-    "opensafely-asthma-oral-prednisolone-medication.csv": {
-      "id": "opensafely/asthma-oral-prednisolone-medication/2020-04-27",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-oral-prednisolone-medication/2020-04-27/",
-      "downloaded_at": "2021-02-08 13:47:50.378858Z",
-      "sha": "e47cc254975c23f7507cf04bb655454f8b5ece18"
-    },
     "opensafely-ethnicity.csv": {
       "id": "opensafely/ethnicity/2020-04-27",
       "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
@@ -17,6 +11,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/pulse-oximetry/72ce1380/",
       "downloaded_at": "2021-02-09 14:32:46.418376Z",
       "sha": "9a82ffa751c58d33e6ddac3f7cef0413ab635bf9"
+    },
+    "opensafely-structured-medication-review-nhs-england.csv": {
+      "id": "opensafely/structured-medication-review-nhs-england/5459205f",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/structured-medication-review-nhs-england/5459205f/",
+      "downloaded_at": "2021-02-10 14:56:15.462824Z",
+      "sha": "7bd4843c423ef7618c6d8f27164dc0939f2c9a9a"
     }
   }
 }

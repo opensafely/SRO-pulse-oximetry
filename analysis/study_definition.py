@@ -13,20 +13,23 @@ pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-pulse-oximetry.cs
     system="snomed",
     column="code",)
 
-ethnicity_codes = codelist_from_csv(
-    "codelists/opensafely-ethnicity.csv",
-    system="ctv3",
-    column="Code",
-    category_column="Grouping_6",
-)
 
 
-ethnicity_codes_16 = codelist_from_csv(
-    "codelists/opensafely-ethnicity.csv",
-    system="ctv3",
-    column="Code",
-    category_column="Grouping_16",
-)
+
+# ethnicity_codes = codelist_from_csv(
+#     "codelists/opensafely-ethnicity.csv",
+#     system="ctv3",
+#     column="Code",
+#     category_column="Grouping_6",
+# )
+
+
+# ethnicity_codes_16 = codelist_from_csv(
+#     "codelists/opensafely-ethnicity.csv",
+#     system="ctv3",
+#     column="Code",
+#     category_column="Grouping_16",
+# )
 
 start_date = "2019-01-01"
 end_date = "today"
