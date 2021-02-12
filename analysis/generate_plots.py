@@ -10,13 +10,13 @@ if not os.path.exists('output/figures'):
 
 
 
-measures_df_sex = pd.read_csv('output/measures/pox/measure_pulse_ox_by_sex.csv')
+measures_df_sex = pd.read_csv('output/measures/measure_pulse_ox_by_sex.csv')
 measures_df_region = pd.read_csv(
-    'output/measures/pox/measure_pulse_ox_by_region.csv')
+    'output/measures/measure_pulse_ox_by_region.csv')
 measures_df_age = pd.read_csv(
-    'output/measures/pox/measure_pulse_ox_by_age_band.csv')
+    'output/measures/measure_pulse_ox_by_age_band.csv')
 measures_df_total = pd.read_csv(
-    'output/measures/pox/measure_pulse_ox_total.csv')
+    'output/measures/measure_pulse_ox_total.csv')
 
 
 #temporary fix for population not working in Measures
@@ -71,7 +71,7 @@ def plot_measures(df, title, filename, column_to_plot, category=False, y_label='
     else:
         pass
 
-    plt.savefig(f'output/figures/pox/{filename}.jpeg', bbox_inches='tight')
+    plt.savefig(f'output/figures/{filename}.jpeg', bbox_inches='tight')
    
     plt.clf()
 
