@@ -6,8 +6,7 @@ import os
 if not os.path.exists('output/figures'):
     os.mkdir('output/figures')
 
-if not os.path.exists('output/figures/pox'):
-    os.mkdir('output/figures/pox')
+
 
 
 
