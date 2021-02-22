@@ -8,10 +8,38 @@ from cohortextractor import (
     codelist_from_csv
 )
 
+import pandas as pd
+
+codelist_df = pd.read_csv("codelists/opensafely-pulse-oximetry.csv")
+
+pulse_ox_code_mapping = {"1325251000000106": "Y2a44",
+                         "1325261000000109": "Y2a45",
+                         "1325271000000102": "Y2a46",
+                         "1325201000000105": "Y2a47",
+                         "1325191000000108": "Y2a48", 
+                         "1325221000000101": "Y2a49",
+                         "1325241000000108": "Y2a4a",
+                         "1325281000000100": "Y2a4b",
+                         "1325681000000102": "Y2b97",
+                         "1325701000000100": "Y2b98",
+                         "1325691000000100": "Y2b99",
+                         "1325211000000107": "YA796"
+                         }
+
+def apply_code_mapping(row):
+    row['CTV3ID'] = pulse_ox_code_mapping[str(row['code'])]
+    return row
+
+codelist_df = codelist_df.apply(lambda row: apply_code_mapping(row), axis=1)
+
+codelist_df.to_csv("codelists/opensafely-pulse-oximetry.csv")
+
+
+
 # Import codelists
 pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-pulse-oximetry.csv",
-    system="snomed",
-    column="code",)
+    system="ctv3",
+    column="CTV3ID",)
 
 
 
