@@ -4,6 +4,5 @@ model.log
 __pycache__
 .python-version
 output/*
-notebooks/
 metadata/*
 *.DS_Store
