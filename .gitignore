@@ -6,3 +6,4 @@ __pycache__
 output/*
 notebooks/
 metadata/*
+*.DS_Store
