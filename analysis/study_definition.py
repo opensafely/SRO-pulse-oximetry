@@ -60,10 +60,11 @@ pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-pulse-oximetry.cs
 # )
 
 start_date = "2019-01-01"
-end_date = "today"
+end_date = "2020-01-01"
 
 # Specifiy study defeinition
 study = StudyDefinition(
+    index_date = "2019-01-01",
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": start_date, "latest": end_date},
@@ -71,19 +72,19 @@ study = StudyDefinition(
         "incidence": 1,
     },
 
-    population=patients.registered_as_of(start_date),
+    population=patients.registered_as_of("index_date"),
 
     had_pulse_ox=patients.with_these_clinical_events(
         pulse_oximetry_codes,
         returning="binary_flag",
-        between=[start_date, end_date],
+        between=["index_date", "index_date + 1 month"],
         return_expectations={"incidence": 0.5}
     ),
 
 
 
     region=patients.registered_practice_as_of(
-        start_date,
+        "index_date",
         returning="nuts1_region_name",
         return_expectations={"category": {"ratios": {
             "North East": 0.1,
@@ -97,7 +98,7 @@ study = StudyDefinition(
     ),
    
     age=patients.age_as_of(
-        start_date,
+        "index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},

@@ -6,7 +6,7 @@ expectations:
 actions:
 
   generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to 2021-02-01 by month" --output-dir=output/measures
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to 2021-01-01 by month" --output-dir=output/measures
     outputs:
       highly_sensitive:
         cohort: output/measures/input_*.csv
@@ -29,3 +29,9 @@ actions:
         figure4: output/figures/age_rates.jpeg
   
  
+  generate_notebook:
+    run: jupyter:latest jupyter nbconvert /workspace/notebooks/pulse_oximetry_SRO.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        notebook: output/pulse_oximetry_SRO.html
