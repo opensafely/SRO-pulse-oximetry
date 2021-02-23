@@ -64,7 +64,7 @@ end_date = "2020-01-01"
 
 # Specifiy study defeinition
 study = StudyDefinition(
-    index_date = "2019-01-01"
+    index_date = "2019-01-01",
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": start_date, "latest": end_date},

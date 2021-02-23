@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 
 if not os.path.exists('output/figures'):
@@ -83,7 +84,7 @@ def redact_small_numbers(df, n, m):
     mask_n = df[m.numerator].isin(list(range(0, n+1)))
     mask_d = df[m.denominator].isin(list(range(0, n+1)))
     mask = mask_n | mask_d
-    df.loc[mask, :] = np.nan
+    df.loc[mask, [m.numerator, m.denominator, 'value']] = np.nan
     return df
 
 

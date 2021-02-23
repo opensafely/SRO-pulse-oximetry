@@ -30,8 +30,8 @@ actions:
   
  
   generate_notebook:
-    run: jupyter:latest jupyter nbconvert /workspace/notebooks/pulse_oximetry.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
+    run: jupyter:latest jupyter nbconvert /workspace/notebooks/pulse_oximetry_SRO.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 
     needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        notebook: output/pulse_oximetry.html
+        notebook: output/pulse_oximetry_SRO.html
