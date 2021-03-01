@@ -59,12 +59,12 @@ pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-pulse-oximetry.cs
 #     category_column="Grouping_16",
 # )
 
-start_date = "2019-01-01"
-end_date = "2020-01-01"
+start_date = "2020-07-01"
+end_date = "2021-01-01"
 
 # Specifiy study defeinition
 study = StudyDefinition(
-    index_date = "2019-01-01",
+    index_date = "2020-07-01",
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": start_date, "latest": end_date},
@@ -72,16 +72,80 @@ study = StudyDefinition(
         "incidence": 1,
     },
 
-    population=patients.registered_as_of("index_date"),
+    population=patients.satisfying(
+        """
+        registered AND
+        (NOT died) AND
+        (sex = 'F' OR sex='M') AND
+        (age != 0)
+        """,
 
-    had_pulse_ox=patients.with_these_clinical_events(
-        pulse_oximetry_codes,
-        returning="binary_flag",
-        between=["index_date", "index_date + 1 month"],
-        return_expectations={"incidence": 0.5}
+        registered=patients.registered_as_of(
+            "index_date",
+            return_expectations={"incidence": 0.9},
+        ),
+
+        died=patients.died_from_any_cause(
+            on_or_before="index_date",
+            returning="binary_flag",
+            return_expectations={"incidence": 0.1}
+        ),
     ),
 
 
+    age=patients.age_as_of(
+        "index_date",
+        return_expectations={
+            "rate": "universal",
+            "int": {"distribution": "population_ages"},
+        },
+    ),
+
+    age_band=patients.categorised_as(
+        {
+            "0": "DEFAULT",
+            "0-19": """ age >= 0 AND age < 20""",
+            "20-29": """ age >=  20 AND age < 30""",
+            "30-39": """ age >=  30 AND age < 40""",
+            "40-49": """ age >=  40 AND age < 50""",
+            "50-59": """ age >=  50 AND age < 60""",
+            "60-69": """ age >=  60 AND age < 70""",
+            "70-79": """ age >=  70 AND age < 80""",
+            "80+": """ age >=  80 AND age < 120""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0.001,
+                    "0-19": 0.124,
+                    "20-29": 0.125,
+                    "30-39": 0.125,
+                    "40-49": 0.125,
+                    "50-59": 0.125,
+                    "60-69": 0.125,
+                    "70-79": 0.125,
+                    "80+": 0.125,
+                }
+            },
+        },
+
+    ),
+
+
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.5, "U": 0.01}},
+        }
+    ),
+
+    practice=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 25, "stddev": 5}, "incidence": 0.5}
+    ),
 
     region=patients.registered_practice_as_of(
         "index_date",
@@ -96,141 +160,73 @@ study = StudyDefinition(
             "London": 0.2,
             "South East": 0.2, }}}
     ),
-   
-    age=patients.age_as_of(
-        "index_date",
-        return_expectations={
-            "rate": "universal",
-            "int": {"distribution": "population_ages"},
-        },
+
+    had_pulse_ox=patients.with_these_clinical_events(
+        pulse_oximetry_codes,
+        returning="binary_flag",
+        between=["index_date", "index_date + 1 month"],
+        return_expectations={"incidence": 0.5}
     ),
 
-    age_band = patients.categorised_as(
-        {
-            "0": "DEFAULT",
-            "0-19": """ age >= 0 AND age < 20""",
-            "20-29": """ age >=  20 AND age < 30""",
-            "30-39": """ age >=  30 AND age < 40""",
-            "40-49": """ age >=  40 AND age < 50""",
-            "50-59": """ age >=  50 AND age < 60""",
-            "60-69": """ age >=  60 AND age < 70""",
-            "70-79": """ age >=  70 AND age < 80""",
-            "80+": """ age >=  80 AND age < 120""", 
-        },
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0-19": 0.125,
-                    "20-29": 0.125,
-                    "30-39": 0.125,
-                    "40-49": 0.125,
-                    "50-59": 0.125,
-                    "60-69": 0.125,
-                    "70-79": 0.125,
-                    "80+": 0.125,
-                }
-            },
-        },
 
+    had_pulse_ox_event_code=patients.with_these_clinical_events(
+        pulse_oximetry_codes,
+        between=["index_date", "index_date + 1 month"],
+        returning="code",
+        return_expectations={"category": {
+            "ratios": {str(1325191000000108): 0.6, str(1325201000000105): 0.4}}}
     ),
-    
-   
-    sex=patients.sex(
-    return_expectations={
-      "rate": "universal",
-      "category": {"ratios": {"M": 0.49, "F": 0.51}},
-    }
-  ),
 
 
-    # ETHNICITY IN 16 CATEGORIES
-    # https: // github.com/opensafely/covid-vaccine-research-template/blob/main/analysis/study_definition.py
-    # ethnicity_16=patients.with_these_clinical_events(
-    #     ethnicity_codes_16,
-    #     returning="category",
-    #     find_last_match_in_period=True,
-    #     include_date_of_match=False,
-    #     return_expectations={
-    #         "category": {
-    #             "ratios": {
-    #                 "1": 0.0625,
-    #                 "2": 0.0625,
-    #                 "3": 0.0625,
-    #                 "4": 0.0625,
-    #                 "5": 0.0625,
-    #                 "6": 0.0625,
-    #                 "7": 0.0625,
-    #                 "8": 0.0625,
-    #                 "9": 0.0625,
-    #                 "10": 0.0625,
-    #                 "11": 0.0625,
-    #                 "12": 0.0625,
-    #                 "13": 0.0625,
-    #                 "14": 0.0625,
-    #                 "15": 0.0625,
-    #                 "16": 0.0625,
-    #             }
-    #         },
-    #         "incidence": 0.75,
-    #     },
-    # ),
-
-    # # ETHNICITY IN 6 CATEGORIES
-    # ethnicity=patients.with_these_clinical_events(
-    #     ethnicity_codes,
-    #     returning="category",
-    #     find_last_match_in_period=True,
-    #     include_date_of_match=False,
-    #     return_expectations={
-    #         "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
-    #         "incidence": 0.75,
-    #     },
-    # ),
     
     
 )
 
 measures = [
+   
+
     Measure(
-        id="pulse_ox_by_sex",
+        id="had_pulse_ox_total",
         numerator="had_pulse_ox",
         denominator="population",
-        group_by=["sex"],
+        group_by=None
     ),
 
     Measure(
-        id="pulse_ox_by_region",
+        id="had_pulse_ox_event_code",
+        numerator="had_pulse_ox",
+        denominator="population",
+        group_by=["had_pulse_ox_event_code"]
+    ),
+
+    Measure(
+        id="had_pulse_ox_practice_only",
+        numerator="had_pulse_ox",
+        denominator="population",
+        group_by=["practice"]
+    ),
+
+    Measure(
+        id="had_pulse_ox_by_region",
         numerator="had_pulse_ox",
         denominator="population",
         group_by=["region"],
     ),
 
     Measure(
-        id="pulse_ox_by_age_band",
+        id="had_pulse_ox_by_sex",
+        numerator="had_pulse_ox",
+        denominator="population",
+        group_by=["sex"],
+    ),
+
+    Measure(
+        id="had_pulse_ox_by_age_band",
         numerator="had_pulse_ox",
         denominator="population",
         group_by=["age_band"],
     ),
 
-    # Measure(
-    #     id="pulse_ox_by_ethnicity",
-    #     numerator="had_pulse_ox",
-    #     denominator="population",
-    #     group_by=["ethnicity"],
-    # ),
 
-    # Measure(
-    #     id="pulse_ox_by_ethnicity_16",
-    #     numerator="had_pulse_ox",
-    #     denominator="population",
-    #     group_by=["ethnicity_16"],
-    # ),
-
-    Measure(
-        id="pulse_ox_total",
-        numerator="had_pulse_ox",
-        denominator="population",
-        group_by=None,
-    ),
+    
 ]
