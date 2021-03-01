@@ -15,7 +15,7 @@ from datetime import date
 
 
 start_date = "2019-07-01"
-end_date = "2020-02-01"
+end_date = "2021-01-01"
 # Specifiy study definition
 
 study = StudyDefinition(

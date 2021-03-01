@@ -48,13 +48,13 @@ measures = [
 
 
 
-measures_df_sex = pd.read_csv('output/measures/measure_pulse_ox_by_sex.csv')
+measures_df_sex = pd.read_csv('output/measures/measure_had_pulse_ox_by_sex.csv')
 measures_df_region = pd.read_csv(
-    'output/measures/measure_pulse_ox_by_region.csv')
+    'output/measures/measure_had_pulse_ox_by_region.csv')
 measures_df_age = pd.read_csv(
-    'output/measures/measure_pulse_ox_by_age_band.csv')
+    'output/measures/measure_had_pulse_ox_by_age_band.csv')
 measures_df_total = pd.read_csv(
-    'output/measures/measure_pulse_ox_total.csv')
+    'output/measures/measure_had_pulse_ox_total.csv')
 
 
 #temporary fix for population not working in Measures

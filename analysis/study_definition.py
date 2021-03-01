@@ -60,7 +60,7 @@ pulse_oximetry_codes = codelist_from_csv("codelists/opensafely-pulse-oximetry.cs
 # )
 
 start_date = "2020-07-01"
-end_date = "2020-01-01"
+end_date = "2021-01-01"
 
 # Specifiy study defeinition
 study = StudyDefinition(
@@ -171,11 +171,10 @@ study = StudyDefinition(
 
     had_pulse_ox_event_code=patients.with_these_clinical_events(
         pulse_oximetry_codes,
-        returning="binary_flag",
         between=["index_date", "index_date + 1 month"],
         returning="code",
         return_expectations={"category": {
-            "ratios": {"1239511000000100": 1}}, }
+            "ratios": {str(1325191000000108): 0.6, str(1325201000000105): 0.4}}}
     ),
 
 
