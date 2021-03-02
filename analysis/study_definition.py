@@ -25,6 +25,7 @@ pulse_ox_code_mapping = {"1325251000000106": "Y2a44",
                          "1325691000000100": "Y2b99",
                          "1325211000000107": "YA796"
                          }
+                         
 
 def apply_code_mapping(row):
     row['CTV3ID'] = pulse_ox_code_mapping[str(row['code'])]
