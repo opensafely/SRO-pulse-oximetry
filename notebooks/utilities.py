@@ -197,7 +197,7 @@ def create_child_table(df, code_df, code_column, term_column, measure, nrows=5):
         code = row[code_column]
 
         description = code_df[code_df[code_column]
-                              == code][term_column].values[0]
+                              == code][term_column].values[0] if code in code_df[code_column].values else ""
 
         return description
 
