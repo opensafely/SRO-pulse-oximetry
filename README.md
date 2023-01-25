@@ -1,12 +1,9 @@
-# OpenSAFELY Research Template
+# SRO-pulse-oximetry
 
-This is a template repository for making new OpenSAFELY resarch projects.
+This repository investigates changes in pulse oximetry throughout the pandemic as part of the [OpenSAFELY Service Restoration Observatory](https://www.opensafely.org/nhs-service-restoration-observatory/).
 
-# _title goes here_
 
-This is the code and configuration for our paper, _name goes here_
-
-* The paper is [here]()
+* Outputs from this work form part of [this publication](https://www.medrxiv.org/content/10.1101/2022.06.01.22275674v1).
 * Raw model outputs, including charts, crosstabs, etc, are in `released_outputs/`
 * If you are interested in how we defined our variables, take a look at the [study definition](analysis/study_definition.py); this is written in `python`, but non-programmers should be able to understand what is going on there
 * If you are interested in how we defined our code lists, look in the [codelists folder](./codelists/).
